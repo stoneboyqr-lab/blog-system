@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Post — Admin</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
+
+<link href="../css/admin-common.css" rel="stylesheet"/><link href="../css/create-post.css" rel="stylesheet"/></head>
+<body>
+  <div id="adminBackdrop"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<div class="sidebar-logo">
+<a href="../index.html">STONE<span>BOY</span><sub>— Admin Panel</sub></a>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-group-label">Content</div>
+<a class="sidebar-link" href="dashboard.html"><span class="icon">◈</span> Dashboard</a>
+<a class="sidebar-link" href="posts.html"><span class="icon">✦</span> All Posts</a>
+<a class="sidebar-link active" href="create-post.html"><span class="icon">＋</span> New Post</a>
+<a class="sidebar-link" href="categories.html"><span class="icon">◉</span> Categories</a>
+<div class="nav-group-label">Community</div>
+<a class="sidebar-link" href="comments.html"><span class="icon">◎</span> Comments</a>
+<div class="nav-group-label">Site</div>
+<a class="sidebar-link" href="../index.html"><span class="icon">↗</span> View Blog</a>
+</nav>
+<div class="sidebar-footer">
+<div class="admin-info">
+<div class="admin-avatar">L</div>
+<div>
+<div class="admin-name">Livingstone</div>
+<div class="admin-role">Administrator</div>
+</div>
+</div>
+<button class="logout-btn" id="logoutBtn">Sign Out →</button>
+</div>
+</aside>
+<!-- MAIN -->
+<main class="main">
+<div class="topbar">
+<div class="topbar-left">
+<a class="topbar-back" href="posts.html">← Posts</a>
+<div class="topbar-title" id="pageTitle">New Post</div>
+</div>
+<div class="topbar-actions">
+<button class="btn btn-ghost" id="saveDraftBtn">Save Draft</button>
+<button class="btn btn-gold" id="previewBtn">Preview</button>
+<button class="btn btn-primary" id="publishBtn">Publish Post →</button>
+<button id="adminToggle" aria-label="Open menu">
+  <span></span>
+  <span></span>
+</button>
+</div>
+</div>
+<div class="content">
+<div class="editor-layout">
+<!-- EDITOR -->
+<div>
+<div class="editor-panel">
+<div class="panel-head">
+<span class="panel-title">Post Content</span>
+<span class="panel-title" id="postStatus" style="color:var(--smoke-3)">● Draft</span>
+</div>
+<input class="title-input" id="postTitle" placeholder="Post title..." type="text"/>
+<div class="slug-row">
+<span class="slug-prefix">stoneboydev.com/blog/</span>
+<input class="slug-input" id="postSlug" placeholder="auto-generated-from-title" type="text"/>
+</div>
+<div class="quill-wrap">
+<div id="quillEditor"></div>
+</div>
+<div class="word-count" id="wordCount">0 words · 0 min read</div>
+</div>
+</div>
+<!-- SIDEBAR PANELS -->
+<div>
+<!-- PUBLISH -->
+<div class="side-panel">
+<div class="side-panel-head">Publish Settings</div>
+<div class="side-panel-body">
+<div class="publish-toggle" style="margin-bottom:20px">
+<span class="toggle-label">Published</span>
+<label class="toggle">
+<input id="isPublished" type="checkbox"/>
+<span class="toggle-slider"></span>
+</label>
+</div>
+<button class="btn btn-primary" id="submitBtn" style="width:100%;padding:14px">
+                Save Post →
+              </button>
+<div id="formMsg" style="font-family:var(--font-mono);font-size:.6rem;letter-spacing:.1em;color:var(--red);margin-top:10px;display:none"></div>
+</div>
+</div>
+<!-- CATEGORY -->
+<div class="side-panel">
+<div class="side-panel-head">Category</div>
+<div class="side-panel-body">
+<div class="form-group">
+<select class="form-select" id="postCategory">
+<option value="">Select category...</option>
+</select>
+</div>
+</div>
+</div>
+<!-- TAGS -->
+<div class="side-panel">
+<div class="side-panel-head">Tags</div>
+<div class="side-panel-body">
+<div class="tags-input-wrap">
+<input class="form-input" id="tagInput" placeholder="Add a tag..." style="padding:8px 12px;font-size:.82rem" type="text">
+<button class="tag-add-btn" id="addTagBtn">Add</button>
+</input></div>
+<div class="tags-display" id="tagsDisplay"></div>
+</div>
+</div>
+<!-- COVER IMAGE -->
+<div class="side-panel">
+<div class="side-panel-head">Cover Image</div>
+<div class="side-panel-body">
+<div class="image-drop" id="imageDrop">
+<input accept="image/jpeg,image/png,image/webp" id="imageInput" type="file"/>
+<img class="image-preview" id="imagePreview"/>
+<div id="imageDropContent">
+<div class="image-drop-icon">⬆</div>
+<div class="image-drop-text">Click or drag to upload<br/><span style="opacity:.5">JPEG, PNG, WebP · Max 5MB</span></div>
+</div>
+</div>
+</div>
+</div>
+<!-- EXCERPT -->
+<div class="side-panel">
+<div class="side-panel-head">Excerpt (optional)</div>
+<div class="side-panel-body">
+<textarea class="form-textarea" id="postExcerpt" placeholder="Short description for post cards and SEO..." rows="4"></textarea>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="toast" id="toast"></div>
+
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script src="../js/create-post.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard — Admin</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+
+<link href="../css/admin-common.css" rel="stylesheet"/>
+<link href="../css/dashboard.css" rel="stylesheet"/></head>
+  <style>
+@media (max-width: 820px) {
+          .sidebar{
+            position: fixed !important;
+            left: -100%;
+            height: 100vh !important;
+            min-height: 100vh !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            overflow-y: auto !important;
+          }
+
+          body.menu-open .sidebar{
+            left: 0 !important;
+          }
+        }
+          </style>
+<body>
+    <div id="adminBackdrop"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<aside class="sidebar">
+<div class="sidebar-logo">
+<a href="../index.html">STONE<span>BOY</span><sub>— Admin Panel</sub></a>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-group-label">Content</div>
+<a class="sidebar-link active" href="dashboard.html"><span class="icon">◈</span> Dashboard</a>
+<a class="sidebar-link" href="posts.html"><span class="icon">✦</span> All Posts</a>
+<a class="sidebar-link" href="create-post.html"><span class="icon">＋</span> New Post</a>
+<a class="sidebar-link" href="categories.html"><span class="icon">◉</span> Categories</a>
+<div class="nav-group-label">Community</div>
+<a class="sidebar-link" href="comments.html"><span class="icon">◎</span> Comments <span class="badge" id="commentsBadge">0</span></a>
+<div class="nav-group-label">Site</div>
+<a class="sidebar-link" href="../index.html"><span class="icon">↗</span> View Blog</a>
+</nav>
+<div class="sidebar-footer">
+<div class="admin-info">
+<div class="admin-avatar">L</div>
+<div>
+<div class="admin-name">Livingstone</div>
+<div class="admin-role">Administrator</div>
+</div>
+</div>
+<button class="logout-btn" id="logoutBtn">Sign Out →</button>
+</div>
+</aside>
+<main class="main">
+<div class="topbar">
+<div class="topbar-title">Dashboard</div>
+<div class="topbar-right">
+<div class="topbar-time" id="topbarTime">—</div>
+<a class="topbar-btn" href="create-post.html">+ New Post</a>
+<button id="adminToggle" aria-label="Open menu">
+  <span></span>
+  <span></span>
+</button>
+</div>
+</div>
+<div class="content">
+<div class="stats-row">
+<div class="stat-card red">
+<div class="stat-icon">✦</div>
+<div class="stat-val" id="statPosts">—</div>
+<div class="stat-label">Total Posts</div>
+<div class="stat-change" id="postsThisMonthText">↑ 0 this month</div>
+</div>
+<div class="stat-card gold">
+<div class="stat-icon">◎</div>
+<div class="stat-val" id="statComments">—</div>
+<div class="stat-label">Comments</div>
+<div class="stat-change" id="pendingCommentsText" style="color:var(--gold)">0 pending approval</div>
+</div>
+<div class="stat-card green">
+<div class="stat-icon">◉</div>
+<div class="stat-val" id="statCategories">—</div>
+<div class="stat-label">Categories</div>
+<div class="stat-change">All active</div>
+</div>
+<div class="stat-card blue">
+<div class="stat-icon">◈</div>
+<div class="stat-val" id="statPublished">—</div>
+<div class="stat-label">Published</div>
+<div class="stat-change" style="color:#6db3d4">Live on blog</div>
+</div>
+</div>
+<div class="dashboard-grid">
+<div>
+<div class="panel" style="margin-bottom:24px">
+<div class="panel-head">
+<span class="panel-title">Recent Posts</span>
+<a class="panel-action" href="posts.html">View All →</a>
+</div>
+<div class="posts-table">
+<div class="table-row head">
+<span>Title</span><span>Category</span><span>Status</span><span>Actions</span>
+</div>
+<div id="postsTableBody">
+<div class="table-row">
+<div class="post-row-title">Loading posts...</div>
+<div class="post-row-cat">—</div>
+<div>—</div>
+<div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel">
+<div class="panel-head"><span class="panel-title">Quick Actions</span></div>
+<div class="quick-actions">
+<a class="quick-btn" href="create-post.html">
+<span class="quick-btn-icon">✦</span>
+<span class="quick-btn-label">Write New Post</span>
+</a>
+<button class="quick-btn" onclick="openModal('catModal')">
+<span class="quick-btn-icon">◉</span>
+<span class="quick-btn-label">Add Category</span>
+</button>
+<a class="quick-btn" href="comments.html">
+<span class="quick-btn-icon">◎</span>
+<span class="quick-btn-label">Review Comments</span>
+</a>
+<a class="quick-btn" href="../index.html" target="_blank">
+<span class="quick-btn-icon">↗</span>
+<span class="quick-btn-label">View Live Blog</span>
+</a>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:24px">
+<div class="panel">
+<div class="panel-head"><span class="panel-title">Recent Activity</span></div>
+<div class="activity-list" id="activityList">
+<div class="activity-item">
+<div class="activity-dot blue"></div>
+<div>
+<div class="activity-text"><strong>Loading recent activity...</strong></div>
+<div class="activity-time">Please wait</div>
+</div>
+</div>
+</div>
+</div>
+<div class="panel">
+<div class="panel-head">
+<span class="panel-title">Categories</span>
+<button class="panel-action" onclick="openModal('catModal')">+ Add</button>
+</div>
+<div id="catListDash">
+<div class="cat-row"><span class="cat-name" style="color:var(--smoke-3);font-family:var(--font-mono);font-size:.7rem">Loading...</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="modal-overlay" id="catModal">
+<div class="modal">
+<button class="modal-close" onclick="closeModal('catModal')">✕</button>
+<div class="modal-title">New Category</div>
+<div class="form-group">
+<label class="form-label">Category Name</label>
+<input class="form-input" id="newCatName" placeholder="e.g. Backend Engineering" type="text"/>
+</div>
+<button class="modal-btn" id="saveCatBtn">Create Category →</button>
+</div>
+</div>
+<div class="toast" id="toast">✓ Done</div>
+
+<script src="../js/dashboard.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

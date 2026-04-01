@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Posts — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin-common.css">
+  <link rel="stylesheet" href="../css/posts.css">
+</head>
+<body>
+  <div id="adminBackdrop"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="../index.html">STONE<span>BOY</span><sub>— Admin Panel</sub></a>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Content</div>
+      <a class="sidebar-link" href="dashboard.html"><span class="icon">◈</span> Dashboard</a>
+      <a class="sidebar-link active" href="posts.html"><span class="icon">✦</span> All Posts</a>
+      <a class="sidebar-link" href="create-post.html"><span class="icon">＋</span> New Post</a>
+      <a class="sidebar-link" href="categories.html"><span class="icon">◉</span> Categories</a>
+      <div class="nav-group-label">Community</div>
+      <a class="sidebar-link" href="comments.html"><span class="icon">◎</span> Comments</a>
+      <div class="nav-group-label">Site</div>
+      <a class="sidebar-link" href="../index.html"><span class="icon">↗</span> View Blog</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="admin-info">
+        <div class="admin-avatar">L</div>
+        <div>
+          <div class="admin-name">Livingstone</div>
+          <div class="admin-role">Administrator</div>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Sign Out →</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-title">Posts</div>
+      <a class="topbar-btn" href="create-post.html">New Post</a>
+<button id="adminToggle" aria-label="Open menu">
+  <span></span>
+  <span></span>
+</button>
+    </header>
+    <section class="content">
+      <div class="posts-panel">
+        <div class="panel-head">
+          <div class="panel-title">Published & Drafts</div>
+        </div>
+        <div class="posts-table">
+          <div class="row head"><span>Title</span><span>Status</span><span>Category</span><span>Date</span><span>Action</span></div>
+          <div class="row"><span>Loading posts...</span><span>—</span><span>—</span><span>—</span><span>—</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/posts.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Category — Stone Boy Dev Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/public-common.css">
+  <link rel="stylesheet" href="css/category.css">
+</head>
+<body class="public-page">
+  <div class="nav-backdrop"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <nav id="nav">
+    <a class="nav-logo" href="index.html">STONE <span>BOY</span></a>
+    <ul class="nav-links">
+      <li><a href="blog.html">Archive</a></li>
+      <li><a class="active" href="category.html?cat=javascript">Categories</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="blog.html">Read All →</a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span class="nav-toggle-lines"><span></span><span></span><span></span></span>
+    </button>
+  </nav>
+  <main class="page-shell">
+    <header class="page-header">
+      <div>
+        <div class="header-label">Category View</div>
+        <h1><span id="categoryName">JavaScript</span> <em>Notes</em></h1>
+      </div>
+      <div class="header-right">
+        <p class="header-desc">Focused writing around one lane at a time.</p>
+      </div>
+    </header>
+    <section class="category-grid" id="categoryPosts"></section>
+  </main>
+  <footer>
+    <div class="footer-brand">STONE <span>BOY</span></div>
+    <div class="footer-links">
+      <a href="blog.html">Archive</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://github.com/stoneboyqr-lab" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-copy">© 2025 Livingstone — Lvst Web Dev</div>
+  </footer>
+  <script src="js/menu.js"></script>
+  <script src="js/category.js"></script>
+</body>
+</html>

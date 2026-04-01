@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Login — Stone Boy Blog</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../css/admin-common.css" rel="stylesheet"/><link href="../css/login.css" rel="stylesheet"/></head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<!-- LEFT -->
+<div class="left-panel">
+<div>
+<div class="panel-logo">STONE<span>BOY</span><sub>— Admin Panel</sub></div>
+</div>
+<div class="panel-big">ADMIN<br/>ZONE.</div>
+<div class="panel-footer">
+<div class="panel-stat">
+<div class="panel-stat-num">6<span>+</span></div>
+<div class="panel-stat-label">Posts Published</div>
+</div>
+<div class="panel-divider"></div>
+<div class="panel-stat">
+<div class="panel-stat-num">3<span>+</span></div>
+<div class="panel-stat-label">Live Projects</div>
+</div>
+</div>
+</div>
+<!-- RIGHT -->
+<div class="right-panel">
+<div class="login-box">
+<div class="login-label">Restricted Access</div>
+<div class="login-title">Admin<br/>Login.</div>
+<div class="login-sub">stoneboyqr@gmail.com · Owerri, NG</div>
+<div class="form-group">
+<label class="form-label" for="email">Email Address</label>
+<div class="input-wrap">
+<input autocomplete="email" class="form-input" id="email" placeholder="admin@email.com" type="email"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="password">Password</label>
+<div class="input-wrap">
+<input autocomplete="current-password" class="form-input" id="password" placeholder="••••••••••" type="password"/>
+<button class="input-icon" id="togglePwd" title="Show/hide password" type="button">👁</button>
+</div>
+<div class="form-error" id="formError">Invalid email or password. Try again.</div>
+</div>
+<button class="submit-btn" id="loginBtn" type="button">
+<span class="btn-text">Sign In to Dashboard</span>
+<div class="spinner"></div>
+</button>
+<a class="back-link" href="../index.html">← Back to Blog</a>
+</div>
+</div>
+<script src="../js/login.js"></script></body>
+</html>
