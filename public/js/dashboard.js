@@ -232,4 +232,50 @@ if (saveCatBtn) {
   });
 }
 
+
+
+const changePasswordBtn = document.getElementById('changePasswordBtn');
+
+if (changePasswordBtn) {
+  changePasswordBtn.addEventListener('click', async () => {
+    const currentPassword = document.getElementById('currentPassword')?.value || '';
+    const newPassword = document.getElementById('newPassword')?.value || '';
+    const confirmNewPassword = document.getElementById('confirmNewPassword')?.value || '';
+
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      showToast('Fill all password fields', 'var(--red)');
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      showToast('New passwords do not match', 'var(--red)');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/change-password', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Password update failed');
+      }
+
+      closeModal('passwordModal');
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmNewPassword').value = '';
+      showToast('Password updated!');
+    } catch (err) {
+      console.error(err);
+      showToast(err.message || 'Password update failed', 'var(--red)');
+    }
+  });
+}
+
 loadDashboard();

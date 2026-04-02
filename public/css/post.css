@@ -288,3 +288,33 @@
       .footer-links { flex-wrap: wrap; justify-content: center; }
     }
   
+
+
+
+
+    @media (max-width: 700px) {
+  .post-meta-row {
+    flex-wrap: wrap;
+    gap: 14px 18px;
+    align-items: flex-start;
+  }
+
+  .author-info {
+    min-width: 0;
+    flex: 1 1 calc(100% - 56px);
+  }
+
+  .meta-divider {
+    display: none;
+  }
+
+  .meta-stat {
+    flex: 1 1 calc(33.333% - 12px);
+    min-width: 78px;
+    text-align: left;
+  }
+
+  .author-handle {
+    word-break: break-word;
+  }
+}

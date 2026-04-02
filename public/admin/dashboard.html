@@ -137,6 +137,10 @@
 <span class="quick-btn-icon">↗</span>
 <span class="quick-btn-label">View Live Blog</span>
 </a>
+<button class="quick-btn" onclick="openModal('passwordModal')">
+  <span class="quick-btn-icon">🔒</span>
+  <span class="quick-btn-label">Change Password</span>
+</button>
 </div>
 </div>
 </div>
@@ -177,8 +181,31 @@
 <button class="modal-btn" id="saveCatBtn">Create Category →</button>
 </div>
 </div>
-<div class="toast" id="toast">✓ Done</div>
+ <div class="modal-overlay" id="passwordModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('passwordModal')">✕</button>
+    <div class="modal-title">Change Password</div>
 
+    <div class="form-group">
+      <label class="form-label">Current Password</label>
+      <input class="form-input" id="currentPassword" type="password" placeholder="Enter current password" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">New Password</label>
+      <input class="form-input" id="newPassword" type="password" placeholder="Enter new password" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Confirm New Password</label>
+      <input class="form-input" id="confirmNewPassword" type="password" placeholder="Confirm new password" />
+    </div>
+
+    <button class="modal-btn" id="changePasswordBtn">Update Password →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Done</div>
 <script src="../js/dashboard.js"></script>
 <script src="../js/admin.js"></script>
 </body>

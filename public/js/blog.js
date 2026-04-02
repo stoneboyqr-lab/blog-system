@@ -140,6 +140,12 @@
         applyFilter();
       });
     });
+
+    const matchBtn = filterBar.querySelector(`[data-cat="${activeCat}"]`);
+    if (matchBtn) {
+      filterBar.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+      matchBtn.classList.add("active");
+    }
   }
 
   function updateStats(filtered) {
@@ -212,6 +218,12 @@
       visible += 6;
       applyFilter();
     });
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const initCat = params.get("cat");
+  if (initCat) {
+    activeCat = slugify(initCat);
   }
 
   loadData();
