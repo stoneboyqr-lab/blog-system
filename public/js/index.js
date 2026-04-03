@@ -49,16 +49,21 @@
     if (Number.isNaN(d.getTime())) return "Recent";
     return d.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
   }
-
+  function getImageUrl(image) {
+    if (!image) return '';
+    if (/^https?:\/\//i.test(image) || image.startsWith('/uploads/')) return image;
+    return `/uploads/${image}`;
+  }
+  
   function imageHtml(post) {
     if (!post.image) return "";
-    return `<img src="/uploads/${post.image}" alt="${post.title}" style="width:100%;height:180px;object-fit:cover;border-radius:14px;margin-bottom:12px;">`;
+    return `<img src="${getImageUrl(post.image)}" alt="${post.title}" style="width:100%;height:180px;object-fit:cover;border-radius:14px;margin-bottom:12px;">`;
   }
 
   function heroCard(post) {
     return `
       <a class="hero-featured-card" href="post.html?slug=${encodeURIComponent(post.slug)}">
-        ${post.image ? `<img src="/uploads/${post.image}" alt="${post.title}" style="width:100%;height:220px;object-fit:cover;border-radius:16px;margin-bottom:14px;">` : ""}
+        ${post.image ? `<img src="${getImageUrl(post.image)}" alt="${post.title}" style="width:100%;height:220px;object-fit:cover;border-radius:16px;margin-bottom:14px;">` : ""}
         <div class="card-tag"><span class="tag-dot"></span> ${post.category?.name || "General"}</div>
         <div class="card-title">${post.title}</div>
         <p class="card-excerpt">${post.excerpt || excerpt(post.content, 170)}</p>

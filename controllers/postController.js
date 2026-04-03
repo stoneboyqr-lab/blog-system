@@ -43,7 +43,7 @@ export const getPostById = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const { title, content, published, category, tags, author, excerpt } = req.body;
-    const image = req.file ? req.file.filename : null;
+    const image = req.file ? req.file.path : null;
     const slug = req.body.slug || slugify(title, { lower: true, strict: true });
 
     const parsedTags = Array.isArray(tags)
@@ -107,7 +107,7 @@ export const updatePost = async (req, res) => {
     }
 
     if (req.file) {
-      updateData.image = req.file.filename;
+      updateData.image = req.file.path;
     }
 
     if (updateData.title && !updateData.slug) {

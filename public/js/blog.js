@@ -81,9 +81,14 @@
     return `post.html?slug=${encodeURIComponent(post.slug)}`;
   }
 
-  function imageHtml(post, height=180) {
+  function getImageUrl(image) {
+    if (!image) return '';
+    if (/^https?:\/\//i.test(image) || image.startsWith('/uploads/')) return image;
+    return `/uploads/${image}`;
+  }
+  function imageHtml(post, height=180) { 
     if (!post.image) return "";
-    return `<img src="/uploads/${post.image}" alt="${post.title}" style="width:100%;height:${height}px;object-fit:cover;border-radius:14px;margin-bottom:12px;">`;
+    return `<img src="${getImageUrl(post.image)}" alt="${post.title}" style="width:100%;height:${height}px;object-fit:cover;border-radius:14px;margin-bottom:12px;">`;
   }
 
   function featuredCard(post) {
