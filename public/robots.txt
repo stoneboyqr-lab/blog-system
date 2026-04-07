@@ -1,4 +1,4 @@
-User-agent:*
-Allow:/
+User-agent: *
+Allow: /
 
-Sitemap:https://blog.lvstwebdev.com/sitemap.xml
+Sitemap: https://blog.lvstwebdev.com/sitemap.xml

@@ -64,6 +64,26 @@ export const createPost = async (req, res) => {
       author
     });
 
+    if (post.published && post.slug) {
+  try {
+    await fetch("https://api.indexnow.org/indexnow", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        host: "blog.lvstwebdev.com",
+        key: "a1b2c3d4e5f6g7h8",
+        urlList: [
+          `https://blog.lvstwebdev.com/post/${post.slug}`
+        ]
+      })
+    });
+  } catch (err) {
+    console.error("IndexNow error:", err);
+  }
+}
+
     const populatedPost = await Post.findById(post._id).populate("category", "name").populate("author", "name");
     res.status(201).json({ message: "Post added", post: populatedPost });
   } catch (err) {

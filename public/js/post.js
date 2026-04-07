@@ -71,8 +71,9 @@
     });
   };
 
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get('slug');
+  const slug = decodeURIComponent(
+  window.location.pathname.split("/").pop() || ""
+);
 
   async function loadPost() {
     if (!slug) return;
@@ -110,7 +111,7 @@
       const tagsWrap = document.querySelector('.post-tags');
       if (tagsWrap) {
         const tags = Array.isArray(post.tags) ? post.tags : [];
-        tagsWrap.innerHTML = tags.length ? tags.map(tag => `<a class="tag" href="blog.html?cat=${encodeURIComponent(tag)}">${tag}</a>`).join('') : '';
+        tagsWrap.innerHTML = tags.length ? tags.map(tag => `<a class="tag" href="/blog/${encodeURIComponent(tag)}">${tag}</a>`).join('') : '';
       }
 
       generateTOC();
@@ -133,7 +134,7 @@
       relatedEls.forEach((el, idx) => {
         const post = related[idx];
         if (!post) { el.style.display = 'none'; return; }
-        el.href = `post.html?slug=${encodeURIComponent(post.slug)}`;
+        el.href = `/post/${encodeURIComponent(post.slug)}`;
         const cat = el.querySelector('.related-cat');
         const title = el.querySelector('.related-title');
         if (cat) cat.textContent = post.category?.name || post.category || categoryName;
@@ -146,12 +147,12 @@
       const prevEl = document.querySelector('.post-nav-item.prev');
       const nextEl = document.querySelector('.post-nav-item.next');
       if (prevEl && prev) {
-        prevEl.href = `post.html?slug=${encodeURIComponent(prev.slug)}`;
+        prevEl.href = `/post/${encodeURIComponent(prev.slug)}`;
         const t = prevEl.querySelector('.post-nav-title');
         if (t) t.textContent = prev.title;
       }
       if (nextEl && next) {
-        nextEl.href = `post.html?slug=${encodeURIComponent(next.slug)}`;
+        nextEl.href = `/post/${encodeURIComponent(next.slug)}`;
         const t = nextEl.querySelector('.post-nav-title');
         if (t) t.textContent = next.title;
       }
@@ -226,3 +227,33 @@
 
   loadPost();
 })();
+
+
+document.title = `${post.title} | LVST Blog`;
+
+const meta = document.querySelector('meta[name="description"]');
+if (meta) {
+  meta.setAttribute("content", post.excerpt || post.content.slice(0, 150));
+}
+
+
+const canonical = document.querySelector('link[rel="canonical"]') || document.createElement("link");
+canonical.setAttribute("rel", "canonical");
+canonical.setAttribute("href", `https://blog.lvstwebdev.com/post/${post.slug}`);
+document.head.appendChild(canonical);
+
+
+function setMeta(property, content) {
+  let el = document.querySelector(`meta[property="${property}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", property);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+setMeta("og:title", post.title);
+setMeta("og:description", post.excerpt);
+setMeta("og:url", `https://blog.lvstwebdev.com/post/${post.slug}`);
+setMeta("og:type", "article");

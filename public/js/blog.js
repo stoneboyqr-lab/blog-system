@@ -78,7 +78,7 @@
   }
 
   function postUrl(post) {
-    return `post.html?slug=${encodeURIComponent(post.slug)}`;
+return `/post/${encodeURIComponent(post.slug)}`;
   }
 
   function getImageUrl(image) {
@@ -225,11 +225,15 @@
     });
   }
 
-  const params = new URLSearchParams(window.location.search);
-  const initCat = params.get("cat");
-  if (initCat) {
-    activeCat = slugify(initCat);
-  }
+ const pathParts = window.location.pathname.split("/").filter(Boolean);
+const initCat =
+  pathParts[0] === "blog" && pathParts[1]
+    ? decodeURIComponent(pathParts[1])
+    : null;
+
+if (initCat) {
+  activeCat = slugify(initCat);
+}
 
   loadData();
 })();

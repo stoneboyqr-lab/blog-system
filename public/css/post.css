@@ -318,3 +318,12 @@
     word-break: break-word;
   }
 }
+
+@media (max-width: 768px) {
+  .toc-list{
+    display: none;
+  }
+  .sidebar-label{
+    display: none;
+  }
+}

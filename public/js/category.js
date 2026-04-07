@@ -17,8 +17,7 @@
   const nav = document.getElementById("nav");
   window.addEventListener("scroll", () => nav && nav.classList.toggle("scrolled", window.scrollY > 20));
 
-  const params = new URLSearchParams(window.location.search);
-  const catParam = params.get("cat") || "javascript";
+  const catParam = decodeURIComponent(window.location.pathname.split("/").pop());
 
   function slugify(text = "") {
     return String(text).toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
@@ -51,7 +50,7 @@
       const res = await fetch("/api/posts");
       const data = await res.json();
       const posts = Array.isArray(data) ? data : (data.posts || []);
-      const filtered = posts.filter((p) => slugify(p.category?.name || p.category || "") === slugify(catParam));
+      const filtered = posts.filter((p) => (p.category?.slug || "") === catParam);
 
       if (!filtered.length) {
         grid.innerHTML = `
@@ -71,19 +70,15 @@
           <span class="post-tag">${post.category?.name || formatLabel(catParam)}</span>
           <h2>${post.title}</h2>
           <p>${post.excerpt || excerpt(post.content, 150)}</p>
-          <a href="post.html?slug=${encodeURIComponent(post.slug)}">Read article →</a>
+          <a href="/post/${encodeURIComponent(post.slug)}">Read article →</a>
+ead article →</a>
+>
         </article>
-      `).join("");
-    } catch (err) {
-      console.error("Failed to load category posts:", err);
-      grid.innerHTML = `
-        <article class="post-card">
-          <span class="post-tag">${formatLabel(catParam)}</span>
-          <h2>Could not load posts</h2>
-          <p>Please check your backend connection and try again.</p>
-          <a href="blog.html">Back to archive →</a>
-        </article>
-      `;
+      `);
+    }
+    catch (err) {
+      console.error("Failed to load posts:", err);
+      grid.innerHTML = "<p>Could not load posts right now.</p>";
     }
   }
 
