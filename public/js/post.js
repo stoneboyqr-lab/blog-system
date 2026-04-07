@@ -229,20 +229,30 @@
 })();
 
 
+// Title
 document.title = `${post.title} | LVST Blog`;
 
-const meta = document.querySelector('meta[name="description"]');
-if (meta) {
-  meta.setAttribute("content", post.excerpt || post.content.slice(0, 150));
+// Description
+const description = post.excerpt || post.content.slice(0, 150);
+
+let metaDesc = document.querySelector('meta[name="description"]');
+if (!metaDesc) {
+  metaDesc = document.createElement("meta");
+  metaDesc.setAttribute("name", "description");
+  document.head.appendChild(metaDesc);
 }
+metaDesc.setAttribute("content", description);
 
-
-const canonical = document.querySelector('link[rel="canonical"]') || document.createElement("link");
-canonical.setAttribute("rel", "canonical");
+// Canonical
+let canonical = document.querySelector('link[rel="canonical"]');
+if (!canonical) {
+  canonical = document.createElement("link");
+  canonical.setAttribute("rel", "canonical");
+  document.head.appendChild(canonical);
+}
 canonical.setAttribute("href", `https://blog.lvstwebdev.com/post/${post.slug}`);
-document.head.appendChild(canonical);
 
-
+// Open Graph helper
 function setMeta(property, content) {
   let el = document.querySelector(`meta[property="${property}"]`);
   if (!el) {
@@ -253,7 +263,16 @@ function setMeta(property, content) {
   el.setAttribute("content", content);
 }
 
+// Open Graph
 setMeta("og:title", post.title);
-setMeta("og:description", post.excerpt);
+setMeta("og:description", description);
 setMeta("og:url", `https://blog.lvstwebdev.com/post/${post.slug}`);
 setMeta("og:type", "article");
+
+// og image
+if (post.image) {
+  setMeta("og:image", post.image);
+}
+
+
+
