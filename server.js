@@ -100,6 +100,10 @@ ${urls.map((url) => `  <url>
   }
 });
 
+app.get("/index.html", (req, res) => {
+  return res.redirect(301, "/");
+});
+
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static("uploads"));
