@@ -40,11 +40,14 @@
   const postCount = document.getElementById("postCount");
   const loadMoreBtn = document.getElementById("loadMoreBtn");
   const filterBar = document.getElementById("blogFilterBar");
+  const searchInput = document.getElementById("blogSearchInput");
+  const searchClearBtn = document.getElementById("blogSearchClear");
 
   let allPosts = [];
   let allCategories = [];
   let visible = 6;
   let activeCat = "all";
+  let searchTerm = "";
 
   function stripHtml(text = "") {
     const div = document.createElement("div");
@@ -69,7 +72,12 @@
   }
 
   function slugify(text = "") {
-    return String(text).toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
+    return String(text)
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
   }
 
   function categorySlug(post) {
@@ -78,19 +86,64 @@
   }
 
   function postUrl(post) {
-return `/post/${encodeURIComponent(post.slug)}`;
+    return `/post/${encodeURIComponent(post.slug)}`;
   }
 
   function getImageUrl(image) {
-    if (!image) return '';
-    if (/^https?:\/\//i.test(image) || image.startsWith('/uploads/')) return image;
+    if (!image) return "";
+    if (/^https?:\/\//i.test(image) || image.startsWith("/uploads/")) return image;
     return `/uploads/${image}`;
   }
-  function imageHtml(post, height=180) { 
+
+  function imageHtml(post, height = 180) {
     if (!post.image) return "";
     return `<img src="${getImageUrl(post.image)}" alt="${post.title}" style="width:100%;height:${height}px;object-fit:cover;border-radius:14px;margin-bottom:12px;">`;
   }
 
+  function matchesSearch(post, term) {
+    if (!term) return true;
+
+    const q = term.toLowerCase();
+
+    const title = String(post.title || "").toLowerCase();
+    const excerptText = String(post.excerpt || "").toLowerCase();
+    const content = stripHtml(post.content || "").toLowerCase();
+    const category = String(post.category?.name || post.category || "").toLowerCase();
+    const tags = Array.isArray(post.tags) ? post.tags.join(" ").toLowerCase() : "";
+
+    return (
+      title.includes(q) ||
+      excerptText.includes(q) ||
+      content.includes(q) ||
+      category.includes(q) ||
+      tags.includes(q)
+    );
+  }
+
+  function updateSearchClearVisibility() {
+  if (!searchClearBtn) return;
+  searchClearBtn.classList.toggle("hidden", !searchTerm);
+}
+
+if (searchInput) {
+  searchInput.addEventListener("input", function () {
+    searchTerm = this.value.trim();
+    visible = 6;
+    updateSearchClearVisibility();
+    applyFilter();
+  });
+}
+
+if (searchClearBtn && searchInput) {
+  searchClearBtn.addEventListener("click", function () {
+    searchInput.value = "";
+    searchTerm = "";
+    visible = 6;
+    updateSearchClearVisibility();
+    applyFilter();
+    searchInput.focus();
+  });
+}
   function featuredCard(post) {
     const catName = post.category?.name || post.category || "General";
     return `
@@ -131,11 +184,15 @@ return `/post/${encodeURIComponent(post.slug)}`;
 
   function buildFilters() {
     if (!filterBar) return;
+
     const buttons = ['<button class="filter-btn active" data-cat="all">All Posts</button>'];
-    allCategories.forEach(cat => {
+
+    allCategories.forEach((cat) => {
       buttons.push(`<button class="filter-btn" data-cat="${slugify(cat.name)}">${cat.name}</button>`);
     });
+
     filterBar.innerHTML = buttons.join("");
+
     filterBar.querySelectorAll(".filter-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         filterBar.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
@@ -155,17 +212,21 @@ return `/post/${encodeURIComponent(post.slug)}`;
 
   function updateStats(filtered) {
     if (postCount) postCount.textContent = filtered.length;
+
     const statPublished = document.getElementById("statPublished");
     const statCategories = document.getElementById("statCategories");
     const statWords = document.getElementById("statWords");
+
     if (statPublished) statPublished.innerHTML = `${filtered.length}<span>+</span>`;
     if (statCategories) statCategories.innerHTML = `${allCategories.length}<span>+</span>`;
-    
-    if (statWords) {
-      const words = filtered.reduce((sum, p) => { return sum + stripHtml(p.content).split(/\s+/).filter(Boolean).length; }, 0);
 
-      if (words >= 1000){
-        statWords.innerHTML = `${(words / 1000).toFixed(1).replace('.0', '')}<span>k</span>`;
+    if (statWords) {
+      const words = filtered.reduce((sum, p) => {
+        return sum + stripHtml(p.content).split(/\s+/).filter(Boolean).length;
+      }, 0);
+
+      if (words >= 1000) {
+        statWords.innerHTML = `${(words / 1000).toFixed(1).replace(".0", "")}<span>k</span>`;
       } else {
         statWords.innerHTML = `${words}<span>w</span>`;
       }
@@ -174,8 +235,13 @@ return `/post/${encodeURIComponent(post.slug)}`;
 
   function applyFilter() {
     let filtered = allPosts;
+
     if (activeCat !== "all") {
-      filtered = allPosts.filter((post) => categorySlug(post) === activeCat);
+      filtered = filtered.filter((post) => categorySlug(post) === activeCat);
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter((post) => matchesSearch(post, searchTerm));
     }
 
     updateStats(filtered);
@@ -183,11 +249,25 @@ return `/post/${encodeURIComponent(post.slug)}`;
     const featuredPosts = filtered.slice(0, 2);
     const listPosts = filtered.slice(2, visible + 2);
 
-    if (featuredRow) featuredRow.innerHTML = featuredPosts.length ? featuredPosts.map(featuredCard).join("") : "";
+    if (featuredRow) {
+      featuredRow.innerHTML = featuredPosts.length
+        ? featuredPosts.map(featuredCard).join("")
+        : "";
+    }
+
     if (postList) {
       postList.innerHTML = listPosts.length
         ? listPosts.map((post, index) => listCard(post, index)).join("")
-        : '<div class="list-post reveal"><div class="list-content"><div class="list-title">No posts found</div><p class="list-excerpt">There are no published posts in this category yet.</p></div></div>';
+        : `<div class="list-post reveal">
+             <div class="list-content">
+               <div class="list-title">No posts found</div>
+               <p class="list-excerpt">${
+                 searchTerm
+                   ? `No posts matched "${searchTerm}".`
+                   : "There are no published posts in this category yet."
+               }</p>
+             </div>
+           </div>`;
     }
 
     observeReveals();
@@ -195,19 +275,29 @@ return `/post/${encodeURIComponent(post.slug)}`;
     if (loadMoreBtn) {
       const hiddenCount = Math.max(0, filtered.slice(2).length - listPosts.length);
       loadMoreBtn.disabled = hiddenCount === 0;
+
       const label = loadMoreBtn.querySelector("span");
-      if (label) label.textContent = hiddenCount > 0 ? "Load More Posts" : "All Posts Loaded";
+      if (label) {
+        label.textContent = hiddenCount > 0 ? "Load More Posts" : "All Posts Loaded";
+      }
+
       loadMoreBtn.style.opacity = hiddenCount > 0 ? "1" : "0.4";
     }
   }
 
   async function loadData() {
     try {
-      const [postRes, catRes] = await Promise.all([fetch("/api/posts"), fetch("/api/categories")]);
+      const [postRes, catRes] = await Promise.all([
+        fetch("/api/posts"),
+        fetch("/api/categories")
+      ]);
+
       const postData = await postRes.json();
       const catData = await catRes.json();
+
       allPosts = Array.isArray(postData) ? postData : (postData.posts || []);
       allCategories = Array.isArray(catData) ? catData : [];
+
       buildFilters();
       applyFilter();
     } catch (err) {
@@ -225,15 +315,25 @@ return `/post/${encodeURIComponent(post.slug)}`;
     });
   }
 
- const pathParts = window.location.pathname.split("/").filter(Boolean);
-const initCat =
-  pathParts[0] === "blog" && pathParts[1]
-    ? decodeURIComponent(pathParts[1])
-    : null;
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      searchTerm = this.value.trim();
+      visible = 6;
+      applyFilter();
+    });
+  }
 
-if (initCat) {
-  activeCat = slugify(initCat);
-}
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const initCat =
+    pathParts[0] === "blog" && pathParts[1]
+      ? decodeURIComponent(pathParts[1])
+      : null;
 
+  if (initCat) {
+    activeCat = slugify(initCat);
+  }
+
+updateSearchClearVisibility();
+  
   loadData();
 })();

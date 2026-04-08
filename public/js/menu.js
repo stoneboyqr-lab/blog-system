@@ -25,3 +25,29 @@
     if(window.innerWidth > 900) closeMenu();
   });
 })();
+
+
+
+// =========================
+// BACK TO TOP
+// =========================
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  if (!backToTop) return;
+
+  if (window.scrollY > 300) {
+    backToTop.style.display = "flex";
+  } else {
+    backToTop.style.display = "none";
+  }
+});
+
+if (backToTop) {
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+}

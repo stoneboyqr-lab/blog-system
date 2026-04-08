@@ -29,6 +29,11 @@
 <link rel="manifest" href="../assets/site.webmanifest">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
 <link href="/css/public-common.css" rel="stylesheet"/>
 <link href="/css/blog.css" rel="stylesheet"/>
 </head>
@@ -61,6 +66,29 @@
 
 <div class="filter-bar" id="blogFilterBar">
 <button class="filter-btn active" data-cat="all">All Posts</button>
+</div>
+
+<div class="blog-search-wrap reveal">
+  <div class="blog-search-shell">
+    <span class="blog-search-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+    </span>
+
+    <input
+      type="search"
+      id="blogSearchInput"
+      class="blog-search-input"
+      placeholder="Search posts, tags, categories..."
+      aria-label="Search blog posts"
+    />
+
+    <button type="button" class="blog-search-clear" id="blogSearchClear" aria-label="Clear search">
+      <span>✕</span>
+    </button>
+  </div>
 </div>
 
 <div class="posts-container">
@@ -101,6 +129,11 @@
 </div>
 <div class="footer-copy">© 2025 Livingstone — Lvst Web Dev</div>
 </footer>
+
+  <button id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
 <script src="/js/menu.js"></script>
 <script src="/js/blog.js"></script>
 </body>
