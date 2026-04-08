@@ -113,7 +113,7 @@
         const latest = list.slice(0, 6);
         grid.innerHTML = latest.length
           ? latest.map((post, i) => postCard(post, i)).join("")
-          : `<div class="post-card medium reveal"><div class="post-title">No published posts yet</div><p class="post-excerpt">Create and publish a post from your admin panel.</p></div>`;
+          : `<div class="post-card medium reveal"><div class="post-title">No published posts right now</div><p class="post-excerpt">Refresh the page to try again</p></div>`;
       }
 
       observeReveals();
