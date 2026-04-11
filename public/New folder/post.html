@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post — Stone Boy Dev Blog</title>
+  <meta name="description" content="Explore full stack development, Node.js, Express, and scalable system design. Real-world tutorials, insights, and practical code for building modern web applications.">
+<meta name="keywords" content="full stack development, node js, express, javascript, web development blog, scalable systems, backend development, coding tutorials">
+<meta name="author" content="Livingstone"><!-- ===== VIEWPORT ===== -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- ===== CANONICAL ===== -->
+<link rel="canonical" href="https://blog.lvstwebdev.com/"><!-- ===== OPEN GRAPH (WHATSAPP, FACEBOOK, LINKEDIN) ===== -->
+<meta property="og:title" content="LVST Blog | Full Stack & Scalable Systems">
+<meta property="og:description" content="Practical tutorials, insights, and real-world lessons on building fast, scalable web applications using modern technologies.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blog.lvstwebdev.com/">
+<meta property="og:image" content="https://res.cloudinary.com/dx5qmhmux/image/upload/q_auto/f_auto/v1775418481/file_00000000b9cc720e9cb2a61fc80fd836_yf1cvw.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630"><!-- ===== TWITTER ===== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LVST Web Dev Blog">
+<meta name="twitter:description" content="Full stack tutorials, scalable systems, and real-world development insights.">
+<meta name="twitter:image" content="https://res.cloudinary.com/dx5qmhmux/image/upload/q_auto/f_auto/v1775418481/file_00000000b9cc720e9cb2a61fc80fd836_yf1cvw.png">
+<link rel="icon" href="../assets/favicon.ico">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+<link rel="manifest" href="../assets/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <link href="/css/public-common.css" rel="stylesheet" />
+  <link href="/css/post.css" rel="stylesheet" />
+</head>
+<body class="public-page">
+
+  <div class="nav-backdrop"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav id="nav">
+    <a class="nav-logo" href="/index.html">STONE<span>BOY</span></a>
+    <ul class="nav-links">
+      <li><a href="/blog">Archive</a></li>
+      <li><a href="/blog/javascript">JavaScript</a></li>
+      <li><a href="/blog/backend">Backend</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <a class="nav-back" href="/blog">← Back to Archive</a>
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span class="nav-toggle-lines"><span></span><span></span><span></span></span>
+    </button>
+  </nav>
+
+  <main class="page-shell">
+    <div class="post-hero">
+      <div class="post-breadcrumb">
+        <a href="/index.html">Home</a>
+        <span class="sep">/</span>
+        <a href="/blog">Archive</a>
+        <span class="sep">/</span>
+        <span>Loading...</span>
+      </div>
+
+      <div class="post-category">Loading...</div>
+      <h1 class="post-title">Loading post...</h1>
+
+      <div class="post-meta-row">
+        <div class="author-avatar">L</div>
+        <div class="author-info">
+          <div class="author-name">Livingstone</div>
+          <div class="author-handle">@lvst_web_dev · Owerri, Nigeria</div>
+        </div>
+
+        <div class="meta-divider"></div>
+
+        <div class="meta-stat">
+          <span class="meta-stat-val">—</span>
+          <span class="meta-stat-label">Published</span>
+        </div>
+
+        <div class="meta-divider"></div>
+
+        <div class="meta-stat">
+          <span class="meta-stat-val" id="readTime">—</span>
+          <span class="meta-stat-label">Read Time</span>
+        </div>
+
+        <div class="meta-divider"></div>
+
+        <div class="meta-stat">
+          <span class="meta-stat-val" id="scrollPct">0%</span>
+          <span class="meta-stat-label">Read</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-layout">
+      <article class="article-body" id="articleBody"></article>
+
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-label">Table of Contents</div>
+          <ul class="toc-list"></ul>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Share This Post</div>
+          <div class="share-links">
+            <button class="share-link" onclick="navigator.clipboard.writeText(window.location.href)">
+              <span>⧉</span> Copy Link
+            </button>
+            <a class="share-link" href="https://twitter.com/intent/tweet?text=Great post by @lvst_web_dev&url=" target="_blank">
+              <span>𝕏</span> Share on X
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Related Posts</div>
+
+          <a class="related-post" href="javascript:void(0)">
+            <div class="related-cat">Loading...</div>
+            <div class="related-title">Loading related post...</div>
+          </a>
+
+          <a class="related-post" href="javascript:void(0)">
+            <div class="related-cat">Loading...</div>
+            <div class="related-title">Loading related post...</div>
+          </a>
+
+          <a class="related-post" href="javascript:void(0)">
+            <div class="related-cat">Loading...</div>
+            <div class="related-title">Loading related post...</div>
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="post-nav">
+      <a class="post-nav-item prev" href="javascript:void(0)">
+        <div class="post-nav-dir">← Previous Post</div>
+        <div class="post-nav-title">Loading...</div>
+      </a>
+
+      <a class="post-nav-item next" href="javascript:void(0)">
+        <div class="post-nav-dir">Next Post →</div>
+        <div class="post-nav-title">Loading...</div>
+      </a>
+    </div>
+
+    <div class="comments-section">
+      <div class="section-heading">Leave a <span>Comment</span></div>
+
+      <div class="comment-form">
+        <div class="form-row">
+          <input class="form-input" type="text" placeholder="Your name *" required />
+          <input class="form-input" type="email" placeholder="your@email.com *" required />
+        </div>
+        <textarea class="form-input" placeholder="Your comment..." rows="5"></textarea>
+        <button class="submit-btn">Submit Comment →</button>
+      </div>
+
+      <div class="comment-list"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-brand">STONE<span>BOY</span></div>
+    <div class="footer-links">
+      <a href="/blog">Archive</a>
+      <a href="/about">About</a>
+      <a href="https://github.com/stoneboyqr-lab" target="_blank">GitHub</a>
+      <a href="https://lvstwebdev.com/" target="_blank">Portfolio</a>
+    </div>
+    <div class="footer-copy">© 2025 Livingstone — Lvst Web Dev</div>
+  </footer>
+
+  <button id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script src="/js/menu.js"></script>
+  <script src="/js/post.js"></script>
+</body>
+</html>

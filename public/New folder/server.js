@@ -147,46 +147,9 @@ app.get("/blog/:cat", (req, res) => {
   res.sendFile(path.join(publicDir, "blog.html"));
 });
 
-app.get("/post/:slug", async (req, res) => {
-  try {
-    const post = await Post.findOne({ slug: req.params.slug });
-
-    if (!post) {
-      return res.status(404).send("Post not found");
-    }
-
-    const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <title>${post.title} | LVST Blog</title>
-  <meta name="description" content="${post.excerpt || post.title}">
-
-  <meta property="og:title" content="${post.title}">
-  <meta property="og:description" content="${post.excerpt || post.title}">
-  <meta property="og:image" content="${post.image}">
-  <meta property="og:url" content="https://blog.lvstwebdev.com/post/${post.slug}">
-  <meta property="og:type" content="article">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${post.title}">
-  <meta name="twitter:description" content="${post.excerpt || post.title}">
-  <meta name="twitter:image" content="${post.image}">
-</head>
-<body>
-  <script>
-    window.location.replace("/post.html?slug=${post.slug}");
-  </script>
-</body>
-</html>
-`;
-
-    res.send(html);
-  } catch (err) {
-    res.status(500).send("Error loading post");
-  }
+app.get("/post/:slug", (req, res) => {
+  res.sendFile(path.join(publicDir, "post.html"));
 });
-
 
 app.get("/about", (req, res) => {
   res.sendFile(path.join(publicDir, "about.html"));
