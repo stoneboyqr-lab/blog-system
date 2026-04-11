@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import dns from "dns";
 import { fileURLToPath } from "url";
-
+import fs from "fs";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
