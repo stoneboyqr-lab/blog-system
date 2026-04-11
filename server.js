@@ -177,40 +177,69 @@ app.get("/post/:slug", async (req, res) => {
       plainText.slice(0, 160) ||
       "Read this post on LVST Blog.";
 
-    const image = post.image && /^https?:\/\//i.test(post.image)
-      ? post.image
-      : "https://res.cloudinary.com/dx5qmhmux/image/upload/q_auto/f_auto/v1775418481/file_00000000b9cc720e9cb2a61fc80fd836_yf1cvw.png";
+    const image =
+      post.image && /^https?:\/\//i.test(post.image)
+        ? post.image
+        : "https://res.cloudinary.com/dx5qmhmux/image/upload/q_auto/f_auto/v1775418481/file_00000000b9cc720e9cb2a61fc80fd836_yf1cvw.png";
 
     const postUrl = `${baseUrl}/post/${post.slug}`;
     const title = `${post.title} | LVST Blog`;
 
-    res.type("html").send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    let html = fs.readFileSync(path.join(publicDir, "post.html"), "utf8");
 
-  <title>${escapeHtml(title)}</title>
-  <meta name="description" content="${escapeHtml(description)}" />
-  <link rel="canonical" href="${escapeHtml(postUrl)}" />
+    html = html.replace(
+      /<title>.*?<\/title>/,
+      `<title>${escapeHtml(title)}</title>`
+    );
 
-  <meta property="og:title" content="${escapeHtml(post.title)}" />
-  <meta property="og:description" content="${escapeHtml(description)}" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="${escapeHtml(postUrl)}" />
-  <meta property="og:image" content="${escapeHtml(image)}" />
+    html = html.replace(
+      /<meta name="description" content=".*?">/,
+      `<meta name="description" content="${escapeHtml(description)}">`
+    );
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="${escapeHtml(post.title)}" />
-  <meta name="twitter:description" content="${escapeHtml(description)}" />
-  <meta name="twitter:image" content="${escapeHtml(image)}" />
+    html = html.replace(
+      /<link rel="canonical" href=".*?">/,
+      `<link rel="canonical" href="${escapeHtml(postUrl)}">`
+    );
 
-  
-</head>
-<body></body>
-</html>`);
+    html = html.replace(
+      /<meta property="og:title" content=".*?">/,
+      `<meta property="og:title" content="${escapeHtml(post.title)}">`
+    );
+
+    html = html.replace(
+      /<meta property="og:description" content=".*?">/,
+      `<meta property="og:description" content="${escapeHtml(description)}">`
+    );
+
+    html = html.replace(
+      /<meta property="og:url" content=".*?">/,
+      `<meta property="og:url" content="${escapeHtml(postUrl)}">`
+    );
+
+    html = html.replace(
+      /<meta property="og:image" content=".*?">/,
+      `<meta property="og:image" content="${escapeHtml(image)}">`
+    );
+
+    html = html.replace(
+      /<meta name="twitter:title" content=".*?">/,
+      `<meta name="twitter:title" content="${escapeHtml(post.title)}">`
+    );
+
+    html = html.replace(
+      /<meta name="twitter:description" content=".*?">/,
+      `<meta name="twitter:description" content="${escapeHtml(description)}">`
+    );
+
+    html = html.replace(
+      /<meta name="twitter:image" content=".*?">/,
+      `<meta name="twitter:image" content="${escapeHtml(image)}">`
+    );
+
+    res.send(html);
   } catch (error) {
-    console.error("Dynamic OG route error:", error);
+    console.error("Dynamic post route error:", error);
     res.status(500).send("Error loading post");
   }
 });
