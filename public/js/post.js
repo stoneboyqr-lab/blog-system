@@ -35,7 +35,7 @@
   function formatDate(dateValue) {
     const d = new Date(dateValue);
     if (Number.isNaN(d.getTime())) return 'Recent';
-    return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
   function initials(name = 'L') {
