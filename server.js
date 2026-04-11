@@ -149,48 +149,79 @@ app.get("/blog/:cat", (req, res) => {
 
 app.get("/post/:slug", async (req, res) => {
   try {
-    const post = await Post.findOne({ slug: req.params.slug });
+    const post = await Post.findOne({
+      slug: req.params.slug,
+      published: true,
+    }).lean();
 
     if (!post) {
       return res.status(404).send("Post not found");
     }
 
-    const html = `
-<!DOCTYPE html>
-<html>
+    const plainText = String(post.content || "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const description =
+      (post.excerpt && post.excerpt.trim()) ||
+      plainText.slice(0, 160) ||
+      "Read this post on LVST Blog.";
+
+    const image = post.image && /^https?:\/\//i.test(post.image)
+      ? post.image
+      : "https://res.cloudinary.com/dx5qmhmux/image/upload/q_auto/f_auto/v1775418481/file_00000000b9cc720e9cb2a61fc80fd836_yf1cvw.png";
+
+    const postUrl = `${baseUrl}/post/${post.slug}`;
+    const title = `${post.title} | LVST Blog`;
+
+    res.type("html").send(`<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>${post.title} | LVST Blog</title>
-  <meta name="description" content="${post.excerpt || post.title}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta property="og:title" content="${post.title}">
-  <meta property="og:description" content="${post.excerpt || post.title}">
-  <meta property="og:image" content="${post.image}">
-  <meta property="og:url" content="https://blog.lvstwebdev.com/post/${post.slug}">
-  <meta property="og:type" content="article">
+  <title>${escapeHtml(title)}</title>
+  <meta name="description" content="${escapeHtml(description)}" />
+  <link rel="canonical" href="${escapeHtml(postUrl)}" />
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${post.title}">
-  <meta name="twitter:description" content="${post.excerpt || post.title}">
-  <meta name="twitter:image" content="${post.image}">
-</head>
-<body>
+  <meta property="og:title" content="${escapeHtml(post.title)}" />
+  <meta property="og:description" content="${escapeHtml(description)}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="${escapeHtml(postUrl)}" />
+  <meta property="og:image" content="${escapeHtml(image)}" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escapeHtml(post.title)}" />
+  <meta name="twitter:description" content="${escapeHtml(description)}" />
+  <meta name="twitter:image" content="${escapeHtml(image)}" />
+
   <script>
-    window.location.replace("/post.html?slug=${post.slug}");
+    window.location.replace("/post.html?slug=${encodeURIComponent(post.slug)}");
   </script>
-</body>
-</html>
-`;
-
-    res.send(html);
-  } catch (err) {
+</head>
+<body></body>
+</html>`);
+  } catch (error) {
+    console.error("Dynamic OG route error:", error);
     res.status(500).send("Error loading post");
   }
 });
 
 
+
 app.get("/about", (req, res) => {
   res.sendFile(path.join(publicDir, "about.html"));
 });
+
+function escapeHtml(str = "") {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 const startServer = async () => {
   try {
