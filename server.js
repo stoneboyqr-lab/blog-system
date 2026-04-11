@@ -156,6 +156,10 @@ app.get("/blog/:cat", (req, res) => {
   res.sendFile(path.join(publicDir, "blog.html"));
 });
 
+app.get("/post-view.html", (req, res) => {
+  res.sendFile(path.join(publicDir, "post.html"));
+});
+
 app.get("/post/:slug", async (req, res) => {
   try {
     const post = await Post.findOne({
@@ -206,7 +210,7 @@ app.get("/post/:slug", async (req, res) => {
   <meta name="twitter:image" content="${escapeHtml(image)}" />
 
   <script>
-    window.location.replace("/post.html?slug=${encodeURIComponent(post.slug)}");
+    window.location.replace("/post-view.html?slug=${encodeURIComponent(post.slug)}");
   </script>
 </head>
 <body></body>
