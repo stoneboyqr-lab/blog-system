@@ -71,11 +71,7 @@
     });
   };
 
-const params = new URLSearchParams(window.location.search);
-
-  const slug = params.get('slug') ||
-  
-  decodeURIComponent(
+  const slug = decodeURIComponent(
   window.location.pathname.split("/").pop() || ""
 );
 
