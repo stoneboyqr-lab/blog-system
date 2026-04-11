@@ -37,6 +37,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+function escapeHtml(str = "") {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 app.get("/index.html", (req, res) => res.redirect(301, "/"));
 
 app.get("/about.html", (req, res) => res.redirect(301, "/about"));
@@ -213,15 +222,6 @@ app.get("/post/:slug", async (req, res) => {
 app.get("/about", (req, res) => {
   res.sendFile(path.join(publicDir, "about.html"));
 });
-
-function escapeHtml(str = "") {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
 
 const startServer = async () => {
   try {
