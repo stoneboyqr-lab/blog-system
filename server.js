@@ -17,10 +17,11 @@ import Post from "./models/Post.js";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 dotenv.config();
 
-app.set("trust proxy", 1);
-
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.set("trust proxy", 1);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
