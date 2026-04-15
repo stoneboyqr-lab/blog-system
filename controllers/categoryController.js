@@ -33,7 +33,7 @@ export const deleteCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: "after",
     });
     if (!category) return res.status(404).json({ message: "Category not found" });
     res.json({ message: "Updated successfully", category });

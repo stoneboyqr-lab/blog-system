@@ -138,7 +138,7 @@ export const updatePost = async (req, res) => {
       updateData.published = updateData.published === true || updateData.published === "true";
     }
 
-    const post = await Post.findByIdAndUpdate(req.params.id, updateData, { new: true })
+    const post = await Post.findByIdAndUpdate(req.params.id, updateData, { returnDocument: "after" })
       .populate("category", "name")
       .populate("author", "name");
 
